@@ -35,30 +35,3 @@ class Database
 	}
 }
 ?>
-
-<?php
-
-echo "Hello";
-
-// decode the json body from the request
-$jsonbody = file_get_contents('php://input') ;
-$jsonobj = json_decode($jsonbody) ;
-$state = $jsonobj -> state ;
-$pin = $jsonobj -> pin ;
-$result = createSwitchState($state, $pin) ;
-
-function createSwitchState($state, $pin)
-{
-
-    require 'Portfolio-1/WebContent/database.php';
-    $pdo = Database::connect();
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "INSERT INTO EletricImp (Input,Pin) values(?,?)";
-    $q = $pdo->prepare($sql);
-    $q->execute(array(
-        $state,
-        $pin
-    ));
-
-}
-?>
